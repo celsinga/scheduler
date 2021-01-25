@@ -32,10 +32,11 @@ export default function useApplicationData(props) {
     })
 
     return axios.put(`/api/appointments/${id}`, appointment)
-    .then(() => {
-      setState({
-        ...state,
-        appointments
+    .then(()=> {
+      setState(prev => ({...prev, appointments}));
+      axios.get("/api/days")
+      .then(days => {
+        return setState(prev => ({...prev, days: days.data}))
       })
     })
   }
@@ -44,7 +45,17 @@ export default function useApplicationData(props) {
     return axios.delete(`api/appointments/${id}`)
     .then(() => {
       return setState(prev => {
-        return { ...prev  }
+        console.log(prev)
+        return { ...prev }
+      })
+    })
+    .then(() => {
+      return axios.get(`/api/days`)
+      .then((data) => {
+        setState({
+          ...state,
+          days: data.data
+        })
       })
     })
   }
