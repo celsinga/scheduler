@@ -36,9 +36,9 @@ export default function Application(props) {
 
 
   useEffect(() => {
-    const daysURL = axios.get(`http://localhost:8001/api/days`);
-    const apptURL = axios.get(`http://localhost:8001/api/appointments`);
-    const interURL = axios.get(`http://localhost:8001/api/interviewers`);
+    const daysURL = axios.get(`/api/days`);
+    const apptURL = axios.get(`/api/appointments`);
+    const interURL = axios.get(`/api/interviewers`);
     Promise.all([
       Promise.resolve(daysURL),
       Promise.resolve(apptURL),

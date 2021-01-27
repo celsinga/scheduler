@@ -16,7 +16,7 @@ const SHOW = "SHOW";
 const CREATE = "CREATE";
 const SAVING = "SAVING";
 const DELETING = "DELETING";
-const CONFIRM = "CONFIRM";
+const CONFIRM = "Are you sure you would like to delete?";
 const EDIT = "EDIT";
 const ERROR_SAVE = "We're sorry, something went wrong";
 const ERROR_DELETE = "We're sorry, something went wrong on our end";
@@ -38,7 +38,10 @@ export default function Appointment(props) {
     transition(DELETING, true)
     return props.cancelInterview(id).then(() => {
       transition(EMPTY)
-    }).catch(() => transition(ERROR_DELETE, true))
+    }).catch((err) => {
+      console.error(err)
+      transition(ERROR_DELETE, true)
+    })
   }
 
 
@@ -47,7 +50,7 @@ export default function Appointment(props) {
   );
 
   return (
-    <article className="appointment">
+    <article className="appointment" data-testid="appointment">
       <Header time={props.time}/>
 
       {mode === EMPTY && (<Empty onAdd={() => transition(CREATE)} />)}

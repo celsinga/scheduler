@@ -42,20 +42,19 @@ export default function useApplicationData(props) {
   }
 
   function cancelInterview(id) {
-    return axios.delete(`api/appointments/${id}`)
+    return axios.delete(`/api/appointments/${id}`)
     .then(() => {
       return setState(prev => {
-        console.log(prev)
         return { ...prev }
       })
     })
     .then(() => {
       return axios.get(`/api/days`)
-      .then((data) => {
-        setState({
-          ...state,
-          days: data.data
-        })
+    })
+    .then((data) => {
+      setState({
+        ...state,
+        days: data.data
       })
     })
   }
