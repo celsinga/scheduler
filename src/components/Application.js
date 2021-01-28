@@ -34,7 +34,6 @@ export default function Application(props) {
     )
   });
 
-
   useEffect(() => {
     const daysURL = axios.get(`/api/days`);
     const apptURL = axios.get(`/api/appointments`);

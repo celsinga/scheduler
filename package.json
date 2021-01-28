@@ -41,6 +41,7 @@
     "@testing-library/react": "^8.0.9",
     "@testing-library/react-hooks": "^5.0.0",
     "babel-loader": "^8.0.5",
+    "cypress": "^6.3.0",
     "node-sass": "^4.14.0",
     "prop-types": "^15.7.2",
     "react-test-renderer": "^16.14.0"
@@ -51,5 +52,6 @@
       "<rootDir>/.git/"
     ]
   },
-  "proxy": "http://localhost:8001"
+  "proxy": "http://localhost:8001",
+  "cypress": "cypress open -P ."
 }
