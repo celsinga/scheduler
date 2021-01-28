@@ -2,9 +2,9 @@
 
 Interview Scheduler is a modern single page application (SPA), built with React. Data is persisted by the API server using a PostgreSQL database. The client application communicates with an API server over HTTP, using the JSON format. Jest tests are used through the development of the project.
 
-![]()
-![]()
-![]()
+!["Select a day"](https://github.com/celsinga/scheduler/blob/master/screenshots/app1.png)
+!["Add an appointment and choose an interviewer"](https://github.com/celsinga/scheduler/blob/master/screenshots/app2.png)
+!["Delete or edit a scheduled appointment"](https://github.com/celsinga/scheduler/blob/master/screenshots/app3.png)
 
 ## Setup
 
