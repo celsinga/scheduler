@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 
 export default function useApplicationData(props) {
+  //Set State
   const [state, setState] = useState({
     day: "Monday",
     days: [],
@@ -13,9 +14,9 @@ export default function useApplicationData(props) {
 
     }
   });
-
   const setDay = day => setState({ ...state, day });
 
+  //Schedule an interview
   function bookInterview(id, interview) {
     const appointment = {
       ...state.appointments[id],
@@ -25,12 +26,6 @@ export default function useApplicationData(props) {
       ...state.appointments,
       [id]: appointment
     };
-
-    setState({
-      ...state,
-      appointments
-    })
-
     return axios.put(`/api/appointments/${id}`, appointment)
     .then(()=> {
       setState(prev => ({...prev, appointments}));
@@ -40,7 +35,7 @@ export default function useApplicationData(props) {
       })
     })
   }
-
+  //Cancel an Interview
   function cancelInterview(id) {
     return axios.delete(`/api/appointments/${id}`)
     .then(() => {
@@ -58,6 +53,7 @@ export default function useApplicationData(props) {
       })
     })
   }
+  //GET DATA
   useEffect(() => {
     const daysURL = axios.get(`/api/days`);
     const apptURL = axios.get(`/api/appointments`);
@@ -74,7 +70,7 @@ export default function useApplicationData(props) {
         interviewers: all[2].data
       })
     })
-  }, []);
+  }, [state]);
 
   return { state, setState, setDay, bookInterview, cancelInterview }
 }
