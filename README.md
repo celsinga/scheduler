@@ -9,6 +9,7 @@ Interview Scheduler is a modern single page application (SPA), built with React.
 ## Setup
 
 Install dependencies with `npm install`.
+Server: `http://localhost:8000/`
 
 ## Dependencies
 

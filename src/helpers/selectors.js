@@ -43,4 +43,15 @@ function getInterviewersForDay(state, day) {
   return interviewers.length ? interviewers : [];
 }
 
-export { getAppointmentsForDay, getInterview, getInterviewersForDay };
+function getSpotsRemaining(appointments, days, day) {
+  let spots = 0
+  const currentDay = days.find(obj => obj.name === day);
+  currentDay.appointments.forEach(appointmentId => {
+    if (!appointments[appointmentId].interview) {
+      spots += 1;
+    }
+  })
+  return spots;
+}
+
+export { getAppointmentsForDay, getInterview, getInterviewersForDay, getSpotsRemaining };

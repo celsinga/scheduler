@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 
 import axios from "axios";
+import { getSpotsRemaining } from "helpers/selectors";
 
 export default function useApplicationData(props) {
   //Set State
@@ -26,30 +27,49 @@ export default function useApplicationData(props) {
       ...state.appointments,
       [id]: appointment
     };
+    const spotsRemaining = getSpotsRemaining(appointments, state.days, state.day);
+    const currentDayIndex = state.days.findIndex(obj => obj.name === state.day);
+    const day = {
+      ...state.days[currentDayIndex],
+      spots: spotsRemaining
+    }
+    const days = [
+      ...state.days,
+    ]
+    days[currentDayIndex] = day
+
     return axios.put(`/api/appointments/${id}`, appointment)
     .then(()=> {
-      setState(prev => ({...prev, appointments}));
-      axios.get("/api/days")
-      .then(days => {
-        return setState(prev => ({...prev, days: days.data}))
-      })
+      setState(prev => ({...prev, appointments, days}));
     })
   }
+
   //Cancel an Interview
   function cancelInterview(id) {
+    const appointment = {
+      ...state.appointments[id],
+      interview: null
+    };
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment
+    };
+    const spotsRemaining = getSpotsRemaining(appointments, state.days, state.day);
+    const currentDayIndex = state.days.findIndex(obj => obj.name === state.day);
+    const day = {
+      ...state.days[currentDayIndex],
+      spots: spotsRemaining
+    }
+    const days = [
+      ...state.days,
+    ]
+
+    days[currentDayIndex] = day
+
     return axios.delete(`/api/appointments/${id}`)
     .then(() => {
       return setState(prev => {
-        return { ...prev }
-      })
-    })
-    .then(() => {
-      return axios.get(`/api/days`)
-    })
-    .then((data) => {
-      setState({
-        ...state,
-        days: data.data
+        return { ...prev, appointments, days }
       })
     })
   }
@@ -63,14 +83,14 @@ export default function useApplicationData(props) {
       Promise.resolve(apptURL),
       Promise.resolve(interURL)
     ]).then((all) => {
-      setState({
-        ...state,
+      setState(prevState => ({
+        ...prevState,
         days: all[0].data,
         appointments: all[1].data,
         interviewers: all[2].data
-      })
+      }))
     })
-  }, [state]);
+  }, []);
 
   return { state, setState, setDay, bookInterview, cancelInterview }
 }
